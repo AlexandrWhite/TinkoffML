@@ -8,6 +8,7 @@ parser.add_argument("scores_file")
 args = parser.parse_args()
 
 
+
 def get_func_names(astparse):
     function_definitions = [node for node in ast.walk(astparse) if isinstance(node, ast.FunctionDef)]
     return [f.name for f in function_definitions]
@@ -38,15 +39,15 @@ def levinstein(a, b, replace_price=1, insert_price=1, remove_price=1):
     return dp[len(a)][len(b)]
 
 
-def compare_list(list1, list2):
+def remove_empty(list):
+    if list:
+        return [i for i in list if i is not None]
+    return list
 
-    if (not list1) and (not list2):
-        return 0
-    elif not list1:
-        return sum([len(i) for i in list2])
-    elif not list2:
-        return sum([len(i) for i in list1])
-    else:
+def compare_list(list1, list2):
+    list1 = remove_empty(list1)
+    list2 = remove_empty(list2)
+    if list1 and list2:
         max_d = max(
             max([len(i) for i in list1]),
             max([len(i) for i in list2]))  # самое большое расстояние между строками из двух массивов
@@ -57,6 +58,12 @@ def compare_list(list1, list2):
                 d = min(d, levinstein(i, j))
             distance += d
         return distance
+    elif list1 and not list2 or list2 and not list1:
+        if list1:
+            return sum([len(i) for i in list1])
+        return sum([len(i) for i in list2])
+    else:
+        return 0
 
 
 def compare_files(path1, path2):
@@ -73,8 +80,9 @@ def compare_files(path1, path2):
         return scores
 
 
-
 with open(args.input_file, 'r') as files, open(args.scores_file, 'w') as scores:
     for line in files:
         file1, file2 = line.split()
         scores.writelines(str(compare_files(file1, file2)) + '\n')
+
+
