@@ -38,10 +38,10 @@ def levinstein(a, b, replace_price=1, insert_price=1, remove_price=1):
     return dp[len(a)][len(b)]
 
 
-def remove_empty(list1):
-    if list1:
-        return [i for i in list1 if i is not None]
-    return list1
+def remove_empty(list):
+    if list:
+        return [i for i in list if i is not None]
+    return list
 
 
 def compare_list(list1, list2):
