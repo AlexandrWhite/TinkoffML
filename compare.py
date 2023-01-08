@@ -39,8 +39,7 @@ def levinstein(a, b, replace_price=1, insert_price=1, remove_price=1):
 
 
 def compare_list(list1, list2):
-    print(list1)
-    print(list2)
+
     if (not list1) and (not list2):
         return 0
     elif not list1:
