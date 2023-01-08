@@ -8,7 +8,6 @@ parser.add_argument("scores_file")
 args = parser.parse_args()
 
 
-
 def get_func_names(astparse):
     function_definitions = [node for node in ast.walk(astparse) if isinstance(node, ast.FunctionDef)]
     return [f.name for f in function_definitions]
@@ -43,6 +42,7 @@ def remove_empty(list):
     if list:
         return [i for i in list if i is not None]
     return list
+
 
 def compare_list(list1, list2):
     list1 = remove_empty(list1)
@@ -84,5 +84,3 @@ with open(args.input_file, 'r') as files, open(args.scores_file, 'w') as scores:
     for line in files:
         file1, file2 = line.split()
         scores.writelines(str(compare_files(file1, file2)) + '\n')
-
-
